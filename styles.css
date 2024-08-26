@@ -1,0 +1,95 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.button-grid {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    margin-bottom: 20px;
+}
+
+.button {
+    display: block;
+    text-align: center;
+    padding: 15px;
+    background-color: #1a73e8;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.button:hover {
+    background-color: #155ab8;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.back-link {
+    display: block;
+    text-align: center;
+    color: #1a73e8;
+    text-decoration: none;
+    margin-top: 20px;
+    font-size: 1.2em;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* Content Box Styling */
+.content-box {
+    max-width: 100%;
+    width: auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    box-sizing: border-box;
+}
+
+.content-box p {
+    margin-bottom: 0;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .button {
+        padding: 12px;
+        font-size: 1em;
+    }
+
+    .content-box {
+        padding: 15px;
+    }
+}
