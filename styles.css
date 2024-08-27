@@ -42,6 +42,13 @@ h1 {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     margin-bottom: 20px;
 }
+/* Button grid for proverbs layout */
+.button-grid-proverbs {
+    display: grid ;
+    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    margin-bottom: 20px;
+}
 
 /* Button styling */
 .button {
