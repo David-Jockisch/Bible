@@ -101,14 +101,16 @@ h1 {
 /* Responsive layout */
 @media (max-width: 768px) {
     h1 {
-        font-size:  4em;
+        font-size:  3em;
     }
 
     .button {
         padding: 12px;
+        font-size: large;
     }
 
     .content-box {
         padding: 20px;
+
     }
 }
