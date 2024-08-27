@@ -11,7 +11,7 @@ body {
     padding: 0;
     line-height: 1.8;
     background-color: #fdf8e4;
-    color: #333;
+    color: #020101;
 }
 
 /* Container for content */
@@ -19,9 +19,9 @@ body {
     max-width: 900px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #c2b1a17c;
-    border: 10px solid #c0baae;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #c4c3c27c;
+    border: 10px solid #a59f93;
+    box-shadow: 0 0 10px rgba(2, 2, 2, 0.199);
 }
 
 /* Title styling */
@@ -49,7 +49,7 @@ h1 {
     align-items: center; 
     justify-content: left; 
     padding: 15px;
-    background-color: #997254;
+    background-color: #b1a385;
     color: #fff;
     text-decoration: none;
     border-radius: 15px;
@@ -61,7 +61,7 @@ h1 {
 
 
 .button:hover {
-    background-color: #523522;
+    background-color: #6b5749;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
