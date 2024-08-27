@@ -6,25 +6,36 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Garamond", "Georgia", serif;
     margin: 0;
     padding: 0;
-    line-height: 1.6;
-    background-color: #f4f4f4;
-}
-
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 15px;
-}
-
-h1 {
+    line-height: 1.8;
+    background-color: #fdf8e4;
     color: #333;
-    margin-bottom: 20px;
-    text-align: center;
 }
 
+/* Container for content */
+.container {
+    max-width: 900px;
+    border-radius: 8px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffffd3;
+    border: 10px solid #d4c3a3;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Title styling */
+h1 {
+    color: #4b3621;
+    margin-bottom: 25px;
+    text-align: center;
+    font-family: "Garamond", "Georgia", serif;
+    font-size: 4em;
+    font-weight: bold;
+}
+
+/* Button grid layout */
 .button-grid {
     display: grid;
     gap: 15px;
@@ -32,64 +43,72 @@ h1 {
     margin-bottom: 20px;
 }
 
+/* Button styling */
 .button {
     display: block;
     text-align: center;
     padding: 15px;
-    background-color: #1a73e8;
+    background-color: #6a4b34;
     color: #fff;
     text-decoration: none;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-family: "Garamond", "Georgia", serif;
+    font-size: 1.5em;
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .button:hover {
-    background-color: #155ab8;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #523522;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
+/* Back link styling */
 .back-link {
     display: block;
     text-align: center;
-    color: #1a73e8;
+    color: #6a4b34;
     text-decoration: none;
     margin-top: 20px;
-    font-size: 1.2em;
+    font-size: 3em;
+    font-family: "Garamond", "Georgia", serif;
 }
 
 .back-link:hover {
     text-decoration: underline;
 }
 
-/* Content Box Styling */
+/* Content box styling */
 .content-box {
-    max-width: 100%;
-    width: auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fdf8e4;
+    padding: 30px;
+    border: 2px solid #d4c3a3;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.466);
     margin: 20px auto;
     box-sizing: border-box;
+    font-family: "Centaur", serif;
+    font-size: 1.5em;
 }
 
+/* Paragraph styling within content box */
 .content-box p {
-    margin-bottom: 0;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    line-height: 1.8;
 }
 
 /* Responsive layout */
 @media (max-width: 768px) {
     h1 {
-        font-size: 1.5em;
+        font-size:  4em;
     }
 
     .button {
         padding: 12px;
-        font-size: 1em;
     }
 
     .content-box {
-        padding: 15px;
+        padding: 20px;
     }
 }
