@@ -1,6 +1,6 @@
 {
     "name": "DJ Bible Project",
-    "short_name": "Bible",
+    "short_name": "Bible Help",
     "start_url": "https://david-jockisch.github.io/Bible/",
     "display": "standalone",
     "background_color": "#ffffff",
