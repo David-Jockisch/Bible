@@ -1,7 +1,7 @@
 // Install event: Comment out caching logic for development
 self.addEventListener('install', function(event) {
   // Commented out caching for development
-  
+ 
   event.waitUntil(
     caches.open('proverbs-cache').then(function(cache) {
       return cache.addAll([
@@ -29,4 +29,5 @@ self.addEventListener('fetch', function(event) {
   
   // Always fetch from the network
   event.respondWith(fetch(event.request));
+
 });
