@@ -1,7 +1,7 @@
 {
-    "name": "Proverbs App",
-    "short_name": "Proverbs",
-    "start_url": "/index.html",
+    "name": "DJ Bible Project",
+    "short_name": "Bible",
+    "start_url": "https://david-jockisch.github.io/Bible/",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#000000",
