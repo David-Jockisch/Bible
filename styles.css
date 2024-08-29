@@ -48,7 +48,7 @@ h1 {
 .button {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
     padding: 15px;
     background-color: #6f4f28; /* Dark brown color */
     color: #fff; /* White text */

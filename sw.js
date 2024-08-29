@@ -1,7 +1,7 @@
-// Install event: Comment out caching logic for development
 self.addEventListener('install', function(event) {
-  // Commented out caching for development
- 
+//add comment bracket under this line 
+
+
   event.waitUntil(
     caches.open('proverbs-cache').then(function(cache) {
       return cache.addAll([
@@ -14,20 +14,22 @@ self.addEventListener('install', function(event) {
     })
   );
 
-});
-
-// Fetch event: Comment out caching logic for development
-self.addEventListener('fetch', function(event) {
-  // Commented out caching logic for development
   
+//add comment bracket above this line
+});
+self.addEventListener('fetch', function(event) {
+//add comment bracket under this line 
+
+
   event.respondWith(
     caches.match(event.request).then(function(response) {
       return response || fetch(event.request);
     })
   );
+
+
+//add comment bracket above this line
   
-  
-  // Always fetch from the network
   event.respondWith(fetch(event.request));
 
 });
