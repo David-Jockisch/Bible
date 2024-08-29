@@ -6,45 +6,39 @@
 }
 
 body {
-    font-family: "Garamond", "Georgia", serif;
+    font-family: "Garamond", serif; /* Classic serif font */
     margin: 0;
     padding: 0;
     line-height: 1.8;
-    background-color: #fdf8e4;
-    color: #020101;
+    background-color: #f4f1e0; /* Light parchment color */
+    color: #3b2a1d; /* Deep brown text color */
 }
 
 /* Container for content */
 .container {
     max-width: 900px;
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 20px;
-    background-color: #c4c3c27c;
-    border: 10px solid #a59f93;
-    box-shadow: 0 0 10px rgba(2, 2, 2, 0.199);
+    border-radius: 10px;
+    background-color: #fff8e1; /* Off-white parchment color */
+    border: 2px solid #8e735b; /* Rich brown border color */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Softer shadow for a more antique look */
 }
 
 /* Title styling */
 h1 {
-    color: #4b3621;
+    color: #5a3e1b; /* Darker brown color */
     margin-bottom: 25px;
     text-align: center;
-    font-family: "Garamond", "Georgia", serif;
-    font-size: 4em;
+    font-family: "Caslon", serif; /* Historic serif font */
+    font-size: 3em;
     font-weight: bold;
-    text-shadow: 1px 1px 2.5px rgba(0, 0, 0, 0.651);
+    text-shadow: none; /* Remove shadow for a cleaner, older look */
 }
 
 /* Button grid layout */
-.button-grid {
+.button-grid, .button-grid-proverbs {
     display: grid;
-    gap: 15px;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    margin-bottom: 20px;
-}
-/* Button grid for proverbs layout */
-.button-grid-proverbs {
-    display: grid ;
     gap: 15px;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     margin-bottom: 20px;
@@ -53,34 +47,33 @@ h1 {
 /* Button styling */
 .button {
     display: flex;
-    align-items: center; 
-    justify-content: left; 
+    align-items: center;
+    justify-content: center;
     padding: 15px;
-    background-color: #b1a385;
-    color: #fff;
+    background-color: #6f4f28; /* Dark brown color */
+    color: #fff; /* White text */
     text-decoration: none;
-    border-radius: 15px;
-    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.774);
-    font-family: "Garamond", "Georgia", serif;
-    font-size: 1.5em;
-    transition: background-color 0.3s, box-shadow 0.3s;
+    border-radius: 10px;
+    border: 1px solid #8e735b; /* Coordinated border color */
+    box-shadow: none; /* Remove shadow for a flatter look */
+    font-family: "Garamond", serif; /* Classic font */
+    font-size: 1.2em;
+    transition: background-color 0.3s;
 }
 
-
 .button:hover {
-    background-color: #6b5749;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    background-color: #5c3e1a; /* Slightly darker brown */
 }
 
 /* Back link styling */
 .back-link {
     display: block;
     text-align: center;
-    color: #6a4b34;
+    color: #5a3e1b; /* Warm brown color */
     text-decoration: none;
     margin-top: 20px;
-    font-size: 3em;
-    font-family: "Garamond", "Georgia", serif;
+    font-size: 2em;
+    font-family: "Garamond", serif; /* Classic font */
 }
 
 .back-link:hover {
@@ -89,37 +82,35 @@ h1 {
 
 /* Content box styling */
 .content-box {
-    background-color: #fdf8e4;
+    background-color: #fef6e4; /* Very light parchment color */
     padding: 30px;
-    border: 2px solid #d4c3a3;
+    border: 1px solid #8e735b; /* Matching border color */
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.466);
+    box-shadow: none; /* Remove shadow for a flatter look */
     margin: 20px auto;
-    box-sizing: border-box;
-    font-family: "Centaur", serif;
-    font-size: 1.5em;
+    font-family: "Garamond", serif; /* Classic font */
+    font-size: 1.2em;
 }
 
 /* Paragraph styling within content box */
 .content-box p {
     margin-bottom: 15px;
-    font-size: 1.1em;
+    font-size: 1.2em;
     line-height: 1.3;
 }
 
 /* Responsive layout */
 @media (max-width: 768px) {
     h1 {
-        font-size:  3em;
+        font-size: 2.5em;
     }
 
     .button {
         padding: 12px;
-        font-size: large;
+        font-size: 1.1em;
     }
 
     .content-box {
         padding: 20px;
-
     }
 }
