@@ -14,7 +14,7 @@ self.addEventListener('install', function(event) {
     })
   );
 
-  
+
 //add comment bracket above this line
 });
 self.addEventListener('fetch', function(event) {
