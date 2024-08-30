@@ -104,8 +104,11 @@ h1 {
 }
 
 img {
-    max-width: 100%;
+    max-width: 200px;
     height: auto;
+    position: relative;
+    display: block;
+    margin: auto;
 }
 
 /* Responsive layout */
@@ -121,5 +124,13 @@ img {
 
     .content-box {
         padding: 15px;
+    }
+
+    img {
+        max-width: 50%;
+        height: auto;
+        position: relative;
+        display: block;
+        margin: auto;
     }
 }
