@@ -3,82 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../styles.css">
-
     <title>Reference</title>
+    <link rel="stylesheet" href="../../styles.css">
     <style>
-        /* The Modal (background) */
+        /* Modal styles */
         .modal {
             display: none; /* Hidden by default */
-            position: fixed;
-            z-index: 1;
-            padding-top: 60px;
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
             left: 0;
             top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.9);
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.8); /* Black background with opacity */
         }
-
-        /* Modal Content (the image) */
         .modal-content {
-            margin: auto;
-            display: block;
-            width: 80%;
-            max-width: 700px;
+            position: relative; /* Position relative for the image to be positioned within */
+            margin: auto; /* Center modal horizontally and vertically */
+            padding: 0;
+            max-width: 90%; /* Set max width */
+            max-height: 90%; /* Set max height */
+            background-color: #fff;
+            overflow: hidden; /* Hide overflow */
         }
-
-        /* The Close Button */
+        .modal-content img {
+            width: 100%; /* Make the image responsive */
+            height: auto; /* Maintain aspect ratio */
+            cursor: grab; /* Indicate grabbing */
+            transition: transform 0.25s ease; /* Smooth zoom effect */
+            position: relative; /* Allow positioning within the modal */
+        }
+        .modal-content img.zoomed {
+            cursor: grabbing; /* Change cursor to indicate dragging */
+            transform: scale(2); /* Adjust zoom level as needed */
+        }
         .close {
             position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
+            top: 10px;
+            right: 25px;
+            color: #000;
+            font-size: 35px;
             font-weight: bold;
-            transition: 0.3s;
+            cursor: pointer;
         }
-
+        .close:hover,
+        .close:focus {
+            color: red;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
+    
 </head>
 <body>
-
-    <h1>Quick Reference</h1>
-
-    <div class="content-box">
+    <div class="container">
+        <h1>Quick Reference</h1>
         <div class="button-grid">
-        <h3>All content below is owned by <a href="https://bibleproject.com/downloads/posters/" target="_blank">bibleproject.com</a>
-        </h3>
-    <a href="#" class="button" onclick="openModal('genesis.jpg')">Genesis</a>
-    <a href="#" class="button" onclick="openModal('exodus.jpg')">Exodus</a>
-    <a href="#" class="button" onclick="openModal('leviticus.jpg')">Leviticus</a>
-    <a href="#" class="button" onclick="openModal('numbers.jpg')">Numbers</a>
-    <a href="#" class="button" onclick="openModal('deuteronomy.jpg')">Deuteronomy</a>
+            <a href="#" class="button" id="openImage">Genesis</a>
+        </div>
 
+        <a href="../../index.html" class="button" style="display: block; text-align: center; width: 100px;">Back</a>
+    </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img src="genesis.jpg" alt="Genesis">
         </div>
     </div>
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="fullImg">
-        <div id="caption" class="caption"></div>
-    </div>
-    <a href="/index.html" class="button">Back to Translations</a>
 
     <script>
-        // Function to open the modal
-        function openModal(imageSrc, imageAlt) {
-            document.getElementById("myModal").style.display = "block";
-            document.getElementById("fullImg").src = imageSrc;
-            document.getElementById("caption").innerHTML = imageAlt;
+        // Get the modal
+        var modal = document.getElementById("myModal");
+    
+        // Get the button that opens the modal
+        var btn = document.getElementById("openImage");
+    
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+    
+        // Get the image element
+        var img = document.querySelector(".modal-content img");
+    
+        // Track dragging
+        var isDragging = false;
+        var startX, startY;
+    
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+            modal.style.display = "block";
         }
-
-        // Function to close the modal
-        function closeModal() {
-            document.getElementById("myModal").style.display = "none";
+    
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+    
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    
+        // Toggle zoom on image click
+        img.onclick = function() {
+            if (img.classList.contains("zoomed")) {
+                img.classList.remove("zoomed");
+                img.style.transform = "scale(1)"; // Reset scale
+                img.style.left = '0px'; // Reset position
+                img.style.top = '0px'; // Reset position
+            } else {
+                img.classList.add("zoomed");
+                img.style.left = '0px'; // Reset position
+                img.style.top = '0px'; // Reset position
+            }
+        }
+    
+        // Dragging functionality
+        img.onmousedown = function(e) {
+            if (!img.classList.contains("zoomed")) return; // Only drag when zoomed
+            isDragging = true;
+            startX = e.pageX - img.offsetLeft;
+            startY = e.pageY - img.offsetTop;
+            img.style.cursor = 'grabbing'; // Change cursor to indicate dragging
+        }
+    
+        document.onmouseup = function() {
+            isDragging = false;
+            img.style.cursor = 'grab'; // Reset cursor
+        }
+    
+        document.onmousemove = function(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            const x = e.pageX - startX;
+            const y = e.pageY - startY;
+            img.style.left = `${x}px`;
+            img.style.top = `${y}px`;
         }
     </script>
-
+    
 </body>
 </html>
