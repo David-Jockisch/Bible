@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../styles.css">
+
+    <title>Reference</title>
+    <style>
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1;
+            padding-top: 60px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        /* Modal Content (the image) */
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        /* The Close Button */
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Quick Reference</h1>
+
+    <div class="content-box">
+        <div class="button-grid">
+        <h3>All content below is owned by <a href="https://bibleproject.com/downloads/posters/" target="_blank">bibleproject.com</a>
+        </h3>
+    <a href="#" class="button" onclick="openModal('genesis.jpg')">Genesis</a>
+    <a href="#" class="button" onclick="openModal('exodus.jpg')">Exodus</a>
+    <a href="#" class="button" onclick="openModal('leviticus.jpg')">Leviticus</a>
+    <a href="#" class="button" onclick="openModal('numbers.jpg')">Numbers</a>
+    <a href="#" class="button" onclick="openModal('deuteronomy.jpg')">Deuteronomy</a>
+
+    
+
+        </div>
+    </div>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="fullImg">
+        <div id="caption" class="caption"></div>
+    </div>
+    <a href="/index.html" class="button">Back to Translations</a>
+
+    <script>
+        // Function to open the modal
+        function openModal(imageSrc, imageAlt) {
+            document.getElementById("myModal").style.display = "block";
+            document.getElementById("fullImg").src = imageSrc;
+            document.getElementById("caption").innerHTML = imageAlt;
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
