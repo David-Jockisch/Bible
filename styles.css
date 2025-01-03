@@ -129,9 +129,9 @@ img {
 .container td {
     border: 1px solid #8e735b; /* Cell borders */
     padding: 10px; /* Padding for readability */
-    text-align: left; /* Left-align content */
+    text-align: center;
     word-wrap: break-word; /* Handle long text gracefully */
-}
+    font-size: clamp(1.25rem, 3vw, 2.5rem);}
 
 .container th {
     background-color: #6f4f28; /* Header background color */
