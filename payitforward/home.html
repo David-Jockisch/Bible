@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kindness Generator</title>
+    <link rel="stylesheet" href="styles.css">
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const actsOfKindness = [
+"Smile at a stranger today.",  
+"Hold the door open for someone.",  
+"Send a kind message to a friend you haven’t spoken to in a while.",  
+"Donate food or clothing to a local charity.",  
+"Compliment someone sincerely.",  
+"Offer to help a neighbor with a chore or task.",  
+"Buy a coffee for the person behind you in line.",  
+"Leave a positive review for a small business you love.",  
+"Thank a teacher or mentor for their guidance.",  
+"Write a note of appreciation to someone who made a difference in your life.",  
+"Pay for someone’s meal at a drive-thru.",  
+"Volunteer at a local shelter or community center.",  
+"Pick up litter in your neighborhood or park.",  
+"Let someone merge in front of you in traffic.",  
+"Donate books to a local library or school.",  
+"Give a genuine compliment to three people today.",  
+"Make a handmade gift for a loved one.",  
+"Call a family member just to say hello.",  
+"Bake cookies or treats and share them with your coworkers or neighbors.",  
+"Send an anonymous letter of encouragement to someone in need.",  
+"Offer to babysit for a friend or family member who needs a break.",  
+"Share a motivational book or article with a friend.",  
+"Donate pet supplies to a local animal shelter.",  
+"Clean up a shared space, like a breakroom or community area, without being asked.",  
+"Mentor someone who could benefit from your experience.",  
+"Leave a thank-you note for your mail carrier or delivery person.",  
+"Prepare a meal for someone who might be going through a tough time.",  
+"Help someone carry their groceries or packages.",  
+"Send a handwritten letter to a friend or family member.",  
+"Bring extra supplies, like pencils or snacks, to share at work or school.",  
+"Visit or call someone who might be feeling lonely.",  
+"Leave kind and encouraging messages on sticky notes in public places.",  
+"Help someone study or prepare for an important test or meeting.",  
+"Offer to mow a lawn or shovel snow for a neighbor.",  
+"Be patient and kind in a difficult situation, even if it’s stressful.",  
+"Sponsor a child’s participation in a sports team or arts program.",  
+"Pay it forward by buying a gift card and leaving it for someone to find.",  
+"Take the time to listen actively to someone who needs to talk.",  
+"Help someone who is lost by giving them clear directions.",  
+"Bring a surprise treat to your coworkers or classmates.",  
+"Write a positive comment on someone’s social media post.",  
+"Donate blood if you’re able to.",  
+"Offer to run an errand for someone who is busy or unable to do so themselves.",  
+"Share your umbrella with someone on a rainy day.",  
+"Give up a close parking spot to someone who may need it more.",  
+"Be a peacemaker in a conflict, offering understanding and kindness.",  
+"Offer to teach someone a skill you know well.",  
+"Encourage someone who seems down or unmotivated.",  
+"Leave a kind note on someone’s desk or in their mailbox.",  
+"Organize a community clean-up day or event.",  
+"Send a thank-you card to a healthcare worker or first responder.",  
+"Help an elderly person with their groceries or hold the elevator for them.",  
+"Donate to a cause or charity that supports a cause you care about.",  
+"Offer a listening ear to a friend who’s going through a tough time.",  
+"Send a care package to someone who’s far away.",  
+"Share an inspirational quote or story with someone who needs a boost.",  
+"Make a small donation to a crowdfunding campaign for a good cause.",  
+"Give a heartfelt thank-you to someone in customer service.",  
+"Leave a generous tip for a waiter or delivery driver.",  
+"Offer to walk a friend’s dog if they’re busy or unable to.",  
+"Share a positive experience or story with someone who could use a little joy.",  
+"Offer to help a classmate or coworker with a difficult task.",  
+"Organize a small get-together or party to celebrate someone special.",  
+"Help someone on a project they’ve been struggling with.",  
+"Offer to help someone learn something new that you know well.",  
+"Let someone go ahead of you in line at the store or post office.",  
+"Share your favorite music or book with someone who might enjoy it.",  
+"Send a gift to a friend 'just because.'",  
+"Offer to clean someone’s car or do a chore for them.",  
+"Take the time to compliment someone’s hard work or effort.",  
+"Create a handmade card for someone and give it to them as a surprise.",  
+"Leave a positive tip for a service worker like a housekeeper or hairstylist.",  
+"Take time to listen and be present with someone who is struggling.",  
+"Offer to help a colleague with a task they are swamped with.",  
+"Reconnect with an old friend by sending them a simple message.",  
+"Volunteer at a local animal shelter or food bank.",  
+"Let someone go in front of you when you’re in a hurry.",  
+"Offer a hand or assistance to someone who seems overwhelmed." 
+            ];
+
+            const randomAct = actsOfKindness[Math.floor(Math.random() * actsOfKindness.length)];
+            document.getElementById("random-act").textContent = randomAct;
+        });
+    </script>
+</head>
+<body>
+    <div class="main-header">Refresh page for new act of kindness.</div>
+
+    <div class="container">
+        <p id="random-act"></p>
+    </div>
+    <div class="footer">Be kind to one another, tender-hearted, forgiving each other, just as God in Christ also has forgiven you. <br>
+Ephesians 4:32
+</div>
+</body>
+</html>
