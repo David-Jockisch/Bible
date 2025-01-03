@@ -23,8 +23,13 @@ body {
     border: 2px solid #8e735b; /* Rich brown border color */
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Softer shadow for a more antique look */
     font-family: "Georgia", serif; /* Antique serif font */
+    overflow-x: auto; /* Enable horizontal scrolling on small screens */
 }
 
+a {
+    text-decoration: none; /* Removes the blue underline */
+    color: inherit; /* Inherits the color from the surrounding text */
+}
 /* Title styling */
 h1 {
     color: #5a3e1b; /* Darker brown color */
@@ -60,7 +65,6 @@ h1 {
     font-size: 1.2em;
     transition: background-color 0.3s;
 }
-
 
 /* Back link styling */
 .back-link {
@@ -111,6 +115,37 @@ img {
     margin: auto;
 }
 
+/* Table-specific styles */
+.container table {
+    width: 100%; /* Ensures the table spans the container */
+    border-collapse: collapse; /* Combine adjacent borders */
+    background-color: #ffffff; /* Table background color */
+    border: 2px solid #8e735b; /* Outer table border */
+    margin: 0 auto; /* Center the table */
+    table-layout: auto; /* Maintain natural width distribution */
+}
+
+.container th,
+.container td {
+    border: 1px solid #8e735b; /* Cell borders */
+    padding: 10px; /* Padding for readability */
+    text-align: left; /* Left-align content */
+    word-wrap: break-word; /* Handle long text gracefully */
+}
+
+.container th {
+    background-color: #6f4f28; /* Header background color */
+    color: white; /* Header text color */
+}
+
+.container tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternating row colors */
+}
+
+.container tr:hover {
+    background-color: #f1f1f1; /* Row hover effect */
+}
+
 /* Responsive layout */
 @media (max-width: 768px) {
     h1 {
@@ -132,5 +167,17 @@ img {
         position: relative;
         display: block;
         margin: auto;
+    }
+
+    .container table {
+        overflow-x: auto; /* Allow horizontal scroll on small screens */
+    }
+}
+
+/* Adjustments for very large screens */
+@media (min-width: 1200px) {
+    .container table {
+        margin: auto; /* Center table for wider screens */
+        width: 100%; /* Keep the table width consistent */
     }
 }
