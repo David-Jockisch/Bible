@@ -62,7 +62,11 @@ h1 {
     font-family: system-ui;
     font-size: 1.2em;
     transition: background-color 0.3s;
+    text-align: center; /* Ensures text is centered */
+    text-wrap: balance; /* Optional: balances lines if supported */
+    word-wrap: break-word; /* Prevents long words from overflowing */
 }
+
 
 /* Content box styling */
 .content-box {
