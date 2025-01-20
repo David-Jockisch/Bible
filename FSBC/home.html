@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png.png">
+</head>
+<body>
+    <h1>First Southern Baptist Church of Rushville</h1>
+
+    <div class="button-grid">
+        <a href="sov.html" class="button">Schedule of Events</a>
+        <a href="minop.html" class="button">Ministry Oppurtunites</a>
+        <a href="pandp.html" class="button">Prayers & Praises</a>
+        <a href="birthdays.html" class="button">Birthdays</a>
+        <a href="reading_plan/month_select.html" class="button">Church Bible Reading Plan</a>
+
+    </div>    
+
+    <div class="content-box">
+        <h1>Sunday Morning</h1>
+        <hr>
+        <h3>Fellowship</h3>
+        <p>8:30-9:00 am</p>
+        <h3>Sunday school for all ages</h3>
+        <p>9:00am-10:00am </p>
+        <h3>Worship</h3>
+        <p>10:15am</p>
+        
+    </div>  
+    <div class="content-box">
+        <h3>Your Pastor</h3>
+        <p><em>Matt McAnally</em></p>
+        <h3>Your Deacons</h3>
+        <p><em>Josh Billingsley-</em><br> (309)333-5884</p>
+        <p><em>Mike Billingsley-</em><br> (309)221-8664</p>
+        <p><em>Joe Deck-</em><br> (309)333-2543</p>
+        <p><em>Dewayne Jockisch-</em><br> (309)229-1903</p>        
+    </div>  
+
+    <div class="content-box">
+        <h1>Rise Up Bible Study</h1>
+        <h3>Men</h3>
+        <p>1st and 3rd Tuesdays at 6pm
+        <br>(Currently Studying the Book of Revelation)
+    <br> Contact Matt or Dewayne</p>
+        <h3>Women</h3>
+        <p>2nd and 4th Tuesdays at 6pm
+            <br>(Currently Studying the Book of Matthew)
+        <br> Contact Jana or Lisa</p>
+        </div>  
+
+        <div class="content-box">
+            <h1>GriefShare Support Group</h1>
+            <h3>February 5th-May 7th</h3>
+            <p>(This is a 13 week course)
+            <br>Wednesdays 6:00pm-8:00pm</p>
+            <a href="https://www.griefshare.org/ministries/214966" class="button"> Click Here to Register</a>
+            </div>  
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <p>426 Maple Ave. </p> 
+            <p>Rushville, IL 62681</p>
+          <p>&copy; 2025 First Southern Baptist Church of Rushville</p>
+          </nav>
+        </div>
+      </footer>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then(function(registration) {
+                console.log('Service Worker registered with scope:', registration.scope);
+            }).catch(function(error) {
+                console.log('Service Worker registration failed:', error);
+            });
+        }
+    </script>
+</body>
+</html>
+
