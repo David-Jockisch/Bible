@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Chain</title>
+    <link rel="stylesheet" href="/prayer-chain/style.css">
+    <link rel="manifest" href="/prayer-chain/manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png.png">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Prayer Chain</h1>
+
+        <h2>Submit a Prayer Request</h2>
+        <form id="prayerForm">
+            <label for="name">Your Name (Optional):</label>
+            <input type="text" id="name" placeholder="Enter your name"><br><br>
+
+            <label for="message">Prayer Request:</label>
+            <textarea id="message" placeholder="Enter your prayer request"></textarea>
+            <button class="button" id="submitPrayerBtn" type="button">Submit Prayer Request</button>
+        </form>
+</div>
+<div class="container">
+        <h2>All Prayer Requests</h2>
+        <ul id="prayerList"></ul>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+        import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging.js';
+        import { getDatabase, ref, push, onValue } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD_5MWAYSC-7nYHzWzcC99rP9xOb85-cvs",
+            authDomain: "fsbc-rushville.firebaseapp.com",
+            databaseURL: "https://fsbc-rushville-default-rtdb.firebaseio.com",
+            projectId: "fsbc-rushville",
+            storageBucket: "fsbc-rushville.firebasestorage.app",
+            messagingSenderId: "363958219468",
+            appId: "1:363958219468:web:63f4f4be8e7e827d4c4869",
+            measurementId: "G-JEHC1TWY12"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const messaging = getMessaging(app);
+
+        async function requestNotificationPermission() {
+            try {
+                const token = await getToken(messaging, { vapidKey: 'BO5cxj6wrvcBtvKxOv6mfdWuGyjIjyM3lW1whVfjsTNJWyhOaEDRwV_-hxyMmT_89xdy9EtY9J8CVxVzVxQWB0YEY' });
+                console.log('FCM Token:', token);
+
+                const userTokensRef = ref(database, 'userTokens');
+                push(userTokensRef, token);
+            } catch (error) {
+                console.error('Error getting FCM token:', error);
+            }
+        }
+
+        requestNotificationPermission();
+
+        const prayersRef = ref(database, 'prayers');
+        onValue(prayersRef, (snapshot) => {
+            const prayerList = document.getElementById("prayerList");
+            prayerList.innerHTML = "";
+
+            snapshot.forEach((childSnapshot) => {
+                const prayer = childSnapshot.val();
+                const li = document.createElement("li");
+                li.innerHTML = `<strong>${prayer.name}</strong>: ${prayer.message}`;
+                prayerList.appendChild(li);
+            });
+        });
+
+        function submitPrayer() {
+            const name = document.getElementById("name").value;
+            const message = document.getElementById("message").value;
+
+            if (!message.trim()) {
+                alert("Please enter a prayer request.");
+                return;
+            }
+
+            const prayersRef = ref(database, 'prayers');
+            push(prayersRef, {
+                name: name || "Anonymous",
+                message: message,
+                timestamp: Date.now()
+            }).then(() => {
+                alert("Prayer request submitted!");
+                document.getElementById("name").value = "";
+                document.getElementById("message").value = "";
+            }).catch((error) => {
+                console.error("Error submitting prayer request:", error);
+            });
+        }
+
+        document.getElementById("submitPrayerBtn").addEventListener("click", submitPrayer);
+    </script>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('firebase-messaging-sw.js')
+        .then((registration) => {
+            console.log('Service Worker registered:', registration);
+        })
+        .catch((error) => {
+            console.error('Service Worker registration failed:', error);
+        });
+}
+    </script>
+</body>
+</html>
