@@ -169,6 +169,45 @@ border: 1px solid #696969;
 resize: vertical; /* Allows users to resize vertically */
 box-sizing: border-box; /* Ensures padding is included in the width calculation */
 }
+
+/* Style for each prayer request container */
+.prayer-container {
+    background-color: #f9f9f9;
+    border: 2px solid #ccc;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.prayer-container strong {
+    font-size: 1.1em;
+    color: #333;
+}
+
+.prayer-container p {
+    font-size: 1.1em;
+    margin-top: 5px;
+}
+
+.prayer-container small {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.85em;
+    color: #888;
+}
+.delete-btn {
+    background-color: #d9534f; /* Red background color */
+    color: white; /* White text */
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
 @media (max-width: 768px) {
     h1 {
         font-size: 2.5em;
