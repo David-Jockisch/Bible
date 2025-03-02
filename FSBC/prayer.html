@@ -25,21 +25,20 @@
     <!-- Firebase SDK using ES Modules -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
-        import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging.js';
+        import { getMessaging, getToken, onMessage, MessagePayload } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging.js';
         import { getDatabase, ref, push, onValue } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
 
         // Firebase config (add your values)
-        // Firebase configuration
         const firebaseConfig = {
-        apiKey: "AIzaSyD_5MWAYSC-7nYHzWzcC99rP9xOb85-cvs",
-        authDomain: "fsbc-rushville.firebaseapp.com",
-        databaseURL: "https://fsbc-rushville-default-rtdb.firebaseio.com",
-        projectId: "fsbc-rushville",
-        storageBucket: "fsbc-rushville.firebasestorage.app",
-        messagingSenderId: "363958219468",
-        appId: "1:363958219468:web:63f4f4be8e7e827d4c4869",
-        measurementId: "G-JEHC1TWY12"
-};
+            apiKey: "AIzaSyD_5MWAYSC-7nYHzWzcC99rP9xOb85-cvs",
+            authDomain: "fsbc-rushville.firebaseapp.com",
+            databaseURL: "https://fsbc-rushville-default-rtdb.firebaseio.com",
+            projectId: "fsbc-rushville",
+            storageBucket: "fsbc-rushville.firebasestorage.app",
+            messagingSenderId: "363958219468",
+            appId: "1:363958219468:web:63f4f4be8e7e827d4c4869",
+            measurementId: "G-JEHC1TWY12"
+        };
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
@@ -51,6 +50,12 @@
             try {
                 const token = await getToken(messaging, { vapidKey: 'BO5cxj6wrvcBtvKxOv6mfdWuGyjIjyM3lW1whVfjsTNJWyhOaEDRwV_-hxyMmT_89xdy9EtY9J8CVxVzVxQWB0YEY' });
                 console.log('FCM Token:', token);  // You should store this token to send push notifications later.
+
+                // Optionally: Store the token in Firebase or your server for later use
+                // You can store the token in Firebase so you can send notifications
+                // to the device later.
+                const userTokensRef = ref(database, 'userTokens');
+                push(userTokensRef, token);
             } catch (error) {
                 console.error('Error getting FCM token:', error);
             }
