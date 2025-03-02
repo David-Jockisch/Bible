@@ -52,8 +52,6 @@
                 console.log('FCM Token:', token);  // You should store this token to send push notifications later.
 
                 // Optionally: Store the token in Firebase or your server for later use
-                // You can store the token in Firebase so you can send notifications
-                // to the device later.
                 const userTokensRef = ref(database, 'userTokens');
                 push(userTokensRef, token);
             } catch (error) {
@@ -77,48 +75,14 @@
                 prayerList.appendChild(li);
             });
 
-            // Send a notification for new prayers
+            // Optionally send a push notification when a new prayer request is added
             sendPushNotification();
         });
 
-        // Send Push Notification using FCM
+        // Send Push Notification using FCM (not implemented in frontend)
         async function sendPushNotification() {
-            // Firebase Admin SDK should be used on the backend to send notifications
-            const message = {
-                notification: {
-                    title: 'New Prayer Request!',
-                    body: 'A new prayer request has been submitted. Check it out.',
-                },
-                token: 'FCM_TOKEN_FROM_BROWSER', // Token you got earlier
-            };
-
-            try {
-                // Use Firebase Admin SDK on your backend to send the message
-                await sendToFCM(message);
-            } catch (error) {
-                console.error('Error sending push notification:', error);
-            }
-        }
-
-        // Send the notification through the Firebase Admin SDK (backend logic needed)
-        async function sendToFCM(message) {
-            // Example of how you would send the message to FCM
-            // You would need to set up Firebase Admin SDK on your backend server to send the notification
-            const admin = require("firebase-admin");
-            admin.initializeApp({
-                credential: admin.credential.cert({
-                    // Your service account info here
-                })
-            });
-
-            // Send the notification
-            admin.messaging().send(message)
-                .then((response) => {
-                    console.log('Successfully sent message:', response);
-                })
-                .catch((error) => {
-                    console.log('Error sending message:', error);
-                });
+            // This should be handled via a backend server (Cloud Functions) to send the push notification
+            console.log('Push notification functionality needs backend support.');
         }
 
         // Function to submit prayer request

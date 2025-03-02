@@ -39,6 +39,6 @@ self.addEventListener('notificationclick', (event) => {
     event.notification.close();  // Close the notification
     // Handle the click event, e.g., open a URL or navigate
     event.waitUntil(
-        clients.openWindow('https://your-website.com')  // Adjust URL to where you want users to go
+        clients.openWindow('https://david-jockisch.github.io/Bible/FSBC/prayer-chain/prayer')  // Adjust URL to where you want users to go
     );
 });
