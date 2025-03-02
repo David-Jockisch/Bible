@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Chain</title>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-messaging.js"></script>
+
+    <!-- Add a simple style for the app -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        #prayerList {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #prayerList li {
+            background: #f1f1f1;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prayer Chain</h1>
+    
+    <!-- User input form -->
+    <input type="text" id="name" placeholder="Your Name (Optional)">
+    <textarea id="message" placeholder="Enter your prayer request" rows="4"></textarea>
+    <button onclick="submitPrayer()">Submit Prayer Request</button>
+
+    <h2>Prayer Requests:</h2>
+    <ul id="prayerList"></ul>
+
+    <!-- Enable notifications -->
+    <button onclick="requestNotificationPermission()">Enable Notifications</button>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+  apiKey: "AIzaSyD_5MWAYSC-7nYHzWzcC99rP9xOb85-cvs",
+  authDomain: "fsbc-rushville.firebaseapp.com",
+  databaseURL: "https://fsbc-rushville-default-rtdb.firebaseio.com",
+  projectId: "fsbc-rushville",
+  storageBucket: "fsbc-rushville.firebasestorage.app",
+  messagingSenderId: "363958219468",
+  appId: "1:363958219468:web:63f4f4be8e7e827d4c4869",
+  measurementId: "G-JEHC1TWY12"
+};
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const messaging = firebase.messaging();
+
+        // Function to request notification permission from the user
+        function requestNotificationPermission() {
+            Notification.requestPermission().then((permission) => {
+                if (permission === "granted") {
+                    messaging.getToken().then((token) => {
+                        console.log("Notification Token:", token);
+                        // Optionally store the token in Firebase for later use
+                    });
+                }
+            });
+        }
+
+        // Function to submit a prayer request to Firebase
+        function submitPrayer() {
+            const name = document.getElementById("name").value;
+            const message = document.getElementById("message").value;
+
+            if (!message.trim()) {
+                alert("Please enter a prayer request.");
+                return;
+            }
+
+            // Save the prayer request to Firebase Realtime Database
+            database.ref("prayers").push({
+                name: name || "Anonymous",
+                message: message,
+                timestamp: Date.now()
+            }).then(() => {
+                // Send a push notification
+                sendPushNotification(name, message);
+            });
+
+            alert("Prayer request submitted!");
+            document.getElementById("name").value = "";
+            document.getElementById("message").value = "";
+        }
+
+        // Function to send push notifications when a new prayer request is submitted
+        function sendPushNotification(name, message) {
+            fetch("https://fcm.googleapis.com/fcm/send", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "key=YOUR_SERVER_KEY"
+                },
+                body: JSON.stringify({
+                    to: "/topics/prayers", // You can use this or specific device tokens
+                    notification: {
+                        title: "New Prayer Request",
+                        body: `${name || "Anonymous"}: ${message}`,
+                        icon: "/prayer-icon.png"
+                    }
+                })
+            });
+        }
+
+        // Listen for changes in the prayer requests and update the list
+        database.ref("prayers").on("value", (snapshot) => {
+            const prayerList = document.getElementById("prayerList");
+            prayerList.innerHTML = "";  // Clear existing list
+
+            snapshot.forEach((childSnapshot) => {
+                const prayer = childSnapshot.val();
+                const li = document.createElement("li");
+                li.innerHTML = `<strong>${prayer.name}</strong>: ${prayer.message}`;
+                prayerList.appendChild(li);
+            });
+        });
+    </script>
+</body>
+</html>
