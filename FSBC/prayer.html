@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prayer Chain</title>
-    <!-- Add Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
 </head>
 <body>
     <h1>Prayer Chain</h1>
@@ -25,30 +22,35 @@
     <h2>All Prayer Requests</h2>
     <ul id="prayerList"></ul>
 
-    <!-- Firebase Configuration -->
-    <script>
+    <!-- Firebase SDK using ES Modules -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+        import { getDatabase, ref, push, onValue } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+
         // Firebase configuration
-    const firebaseConfig = {
-    apiKey: "AIzaSyD_5MWAYSC-7nYHzWzcC99rP9xOb85-cvs",
-    authDomain: "fsbc-rushville.firebaseapp.com",
-    databaseURL: "https://fsbc-rushville-default-rtdb.firebaseio.com",
-    projectId: "fsbc-rushville",
-    storageBucket: "fsbc-rushville.firebasestorage.app",
-    messagingSenderId: "363958219468",
-    appId: "1:363958219468:web:63f4f4be8e7e827d4c4869",
-    measurementId: "G-JEHC1TWY12"
+        const firebaseConfig = {
+        apiKey: "AIzaSyD_5MWAYSC-7nYHzWzcC99rP9xOb85-cvs",
+        authDomain: "fsbc-rushville.firebaseapp.com",
+        databaseURL: "https://fsbc-rushville-default-rtdb.firebaseio.com",
+        projectId: "fsbc-rushville",
+        storageBucket: "fsbc-rushville.firebasestorage.app",
+        messagingSenderId: "363958219468",
+        appId: "1:363958219468:web:63f4f4be8e7e827d4c4869",
+        measurementId: "G-JEHC1TWY12"
 };
+
         // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
 
         // Function to submit prayer request
         function submitPrayer() {
             const name = document.getElementById("name").value;
             const message = document.getElementById("message").value;
 
-            console.log("Name:", name);  // Log the name
-            console.log("Message:", message);  // Log the message
+            console.log("Name:", name);
+            console.log("Message:", message);
 
             if (!message.trim()) {
                 alert("Please enter a prayer request.");
@@ -56,21 +58,23 @@
             }
 
             // Save prayer request to Firebase
-            database.ref("prayers").push({
-                name: name || "Anonymous",  // Default to "Anonymous" if no name is entered
+            const prayersRef = ref(database, 'prayers');
+            push(prayersRef, {
+                name: name || "Anonymous",
                 message: message,
-                timestamp: Date.now()  // Use the current timestamp for sorting
+                timestamp: Date.now()
             }).then(() => {
                 alert("Prayer request submitted!");
-                document.getElementById("name").value = "";  // Clear name input field
-                document.getElementById("message").value = "";  // Clear message input field
+                document.getElementById("name").value = "";
+                document.getElementById("message").value = "";
             }).catch((error) => {
-                console.error("Error submitting prayer request:", error);  // Log error if any
+                console.error("Error submitting prayer request:", error);
             });
         }
 
         // Listen for real-time updates in the Firebase database
-        database.ref("prayers").on("value", (snapshot) => {
+        const prayersRef = ref(database, 'prayers');
+        onValue(prayersRef, (snapshot) => {
             const prayerList = document.getElementById("prayerList");
             prayerList.innerHTML = "";  // Clear the list
 
