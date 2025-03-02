@@ -16,8 +16,8 @@
         <label for="message">Prayer Request:</label>
         <textarea id="message" placeholder="Enter your prayer request" rows="4" cols="50"></textarea><br><br>
 
-        <!-- The onclick now works because the function is defined before -->
-        <button type="button" onclick="submitPrayer()">Submit Prayer Request</button>
+        <!-- Remove the onclick handler here -->
+        <button id="submitPrayerBtn" type="button">Submit Prayer Request</button>
     </form>
 
     <h2>All Prayer Requests</h2>
@@ -45,7 +45,7 @@
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
-        // Function to submit prayer request (defined before button is clicked)
+        // Function to submit prayer request
         function submitPrayer() {
             const name = document.getElementById("name").value;
             const message = document.getElementById("message").value;
@@ -72,6 +72,9 @@
                 console.error("Error submitting prayer request:", error);
             });
         }
+
+        // Attach event listener for button click
+        document.getElementById("submitPrayerBtn").addEventListener("click", submitPrayer);
 
         // Listen for real-time updates in the Firebase database
         const prayersRef = ref(database, 'prayers');
