@@ -16,6 +16,7 @@
         <label for="message">Prayer Request:</label>
         <textarea id="message" placeholder="Enter your prayer request" rows="4" cols="50"></textarea><br><br>
 
+        <!-- The onclick now works because the function is defined before -->
         <button type="button" onclick="submitPrayer()">Submit Prayer Request</button>
     </form>
 
@@ -44,7 +45,7 @@
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
-        // Function to submit prayer request
+        // Function to submit prayer request (defined before button is clicked)
         function submitPrayer() {
             const name = document.getElementById("name").value;
             const message = document.getElementById("message").value;
