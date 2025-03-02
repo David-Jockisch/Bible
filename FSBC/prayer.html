@@ -16,7 +16,6 @@
         <label for="message">Prayer Request:</label>
         <textarea id="message" placeholder="Enter your prayer request" rows="4" cols="50"></textarea><br><br>
 
-        <!-- Remove the onclick handler here -->
         <button id="submitPrayerBtn" type="button">Submit Prayer Request</button>
     </form>
 
@@ -25,10 +24,11 @@
 
     <!-- Firebase SDK using ES Modules -->
     <script type="module">
-        // Import Firebase modules
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+        import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging.js';
         import { getDatabase, ref, push, onValue } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
 
+        // Firebase config (add your values)
         // Firebase configuration
         const firebaseConfig = {
         apiKey: "AIzaSyD_5MWAYSC-7nYHzWzcC99rP9xOb85-cvs",
@@ -44,6 +44,77 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
+        const messaging = getMessaging(app); // Initialize Firebase Messaging
+
+        // Request Permission to Show Push Notifications
+        async function requestNotificationPermission() {
+            try {
+                const token = await getToken(messaging, { vapidKey: 'BO5cxj6wrvcBtvKxOv6mfdWuGyjIjyM3lW1whVfjsTNJWyhOaEDRwV_-hxyMmT_89xdy9EtY9J8CVxVzVxQWB0YEY' });
+                console.log('FCM Token:', token);  // You should store this token to send push notifications later.
+            } catch (error) {
+                console.error('Error getting FCM token:', error);
+            }
+        }
+
+        // Call the permission request when the app is loaded
+        requestNotificationPermission();
+
+        // Set up the real-time updates from Firebase
+        const prayersRef = ref(database, 'prayers');
+        onValue(prayersRef, (snapshot) => {
+            const prayerList = document.getElementById("prayerList");
+            prayerList.innerHTML = "";  // Clear the list
+
+            snapshot.forEach((childSnapshot) => {
+                const prayer = childSnapshot.val();
+                const li = document.createElement("li");
+                li.innerHTML = `<strong>${prayer.name}</strong>: ${prayer.message}`;
+                prayerList.appendChild(li);
+            });
+
+            // Send a notification for new prayers
+            sendPushNotification();
+        });
+
+        // Send Push Notification using FCM
+        async function sendPushNotification() {
+            // Firebase Admin SDK should be used on the backend to send notifications
+            const message = {
+                notification: {
+                    title: 'New Prayer Request!',
+                    body: 'A new prayer request has been submitted. Check it out.',
+                },
+                token: 'FCM_TOKEN_FROM_BROWSER', // Token you got earlier
+            };
+
+            try {
+                // Use Firebase Admin SDK on your backend to send the message
+                await sendToFCM(message);
+            } catch (error) {
+                console.error('Error sending push notification:', error);
+            }
+        }
+
+        // Send the notification through the Firebase Admin SDK (backend logic needed)
+        async function sendToFCM(message) {
+            // Example of how you would send the message to FCM
+            // You would need to set up Firebase Admin SDK on your backend server to send the notification
+            const admin = require("firebase-admin");
+            admin.initializeApp({
+                credential: admin.credential.cert({
+                    // Your service account info here
+                })
+            });
+
+            // Send the notification
+            admin.messaging().send(message)
+                .then((response) => {
+                    console.log('Successfully sent message:', response);
+                })
+                .catch((error) => {
+                    console.log('Error sending message:', error);
+                });
+        }
 
         // Function to submit prayer request
         function submitPrayer() {
@@ -76,19 +147,20 @@
         // Attach event listener for button click
         document.getElementById("submitPrayerBtn").addEventListener("click", submitPrayer);
 
-        // Listen for real-time updates in the Firebase database
-        const prayersRef = ref(database, 'prayers');
-        onValue(prayersRef, (snapshot) => {
-            const prayerList = document.getElementById("prayerList");
-            prayerList.innerHTML = "";  // Clear the list
-
-            snapshot.forEach((childSnapshot) => {
-                const prayer = childSnapshot.val();
-                const li = document.createElement("li");
-                li.innerHTML = `<strong>${prayer.name}</strong>: ${prayer.message}`;
-                prayerList.appendChild(li);
-            });
-        });
     </script>
+
+    <!-- Firebase Messaging Service Worker (firebase-messaging-sw.js) -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/firebase-messaging-sw.js')
+                .then((registration) => {
+                    console.log('Service Worker registered:', registration);
+                })
+                .catch((error) => {
+                    console.error('Service Worker registration failed:', error);
+                });
+        }
+    </script>
+
 </body>
 </html>
