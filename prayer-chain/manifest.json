@@ -1,7 +1,7 @@
 {
     "name": "DJ Bible Project",
     "short_name": "Prayer Chain",
-    "start_url": "https://david-jockisch.github.io/Bible/FSBC/home",
+    "start_url": "https://david-jockisch.github.io/Bible/prayer-chain/prayer",
     "display": "standalone",
     "icons": [
       {
