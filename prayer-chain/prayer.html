@@ -22,11 +22,26 @@
             <label for="message">Prayer Request:</label>
             <textarea id="message" placeholder="Enter your prayer request"></textarea>
             <button class="button" id="submitPrayerBtn" type="button">Submit Prayer Request</button>
-        </form>
+        </form>  
+        
+        <button class="info-btn">ℹ️ Info</button>
+
+    <!-- Modal -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>📖 How to Use This App</h2>
+            <p>✅ Submit a prayer request</p>
+            <p>🔔 Get notified when others pray for you</p>
+            <p>🙏 Click 'Amen' to show support!</p>
+        </div>
+    </div>
+  
     </div>
 
     <div class="container">
         <h2>All Prayer Requests</h2>
+        <p>Prayers are sorted from newest (top) to oldest (bottom) </p>
         <div id="prayerList"></div> 
     </div>
 
@@ -81,7 +96,7 @@
 
         // Prayer count display
         const prayerCount = document.createElement("span");
-        prayerCount.innerHTML = ` ${prayer.prayerCount || 0}`;
+        prayerCount.innerHTML = ` Seen by ${prayer.prayerCount || 0}`;
         prayerCount.classList.add("prayer-count");
 
         // Prayer button
@@ -95,7 +110,7 @@
         deleteButton.innerHTML = "Delete";
         deleteButton.classList.add("delete-btn");
         deleteButton.addEventListener("click", () => {
-            if (confirm("WARNING: This will delete to ALL users. Are you sure you want to delete this prayer request?")) {
+            if (confirm("WARNING: This will delete for ALL users. Are you sure you want to delete this prayer request?")) {
                 deletePrayer(prayer.id);
             }
         });
@@ -163,6 +178,26 @@
         }
 
         document.getElementById("submitPrayerBtn").addEventListener("click", submitPrayer);
+        document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("infoModal");
+    const btn = document.querySelector(".info-btn");
+    const span = document.querySelector(".close");
+
+    btn.onclick = function () {
+        modal.style.display = "block";
+    };
+
+    span.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    window.onclick = function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+});
+
     </script>
 
     <script>
