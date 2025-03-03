@@ -8,8 +8,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png.png">
-
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
 </head>
 <body>
     <div class="container">
@@ -24,136 +23,150 @@
             <textarea id="message" placeholder="Enter your prayer request"></textarea>
             <button class="button" id="submitPrayerBtn" type="button">Submit Prayer Request</button>
         </form>
-</div>
-<div class="container">
-    <h2>All Prayer Requests</h2>
-    <div id="prayerList"></div> 
-</div>
+    </div>
 
+    <div class="container">
+        <h2>All Prayer Requests</h2>
+        <div id="prayerList"></div> 
+    </div>
 
-<script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
-    import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging.js';
-    import { getDatabase, ref, push, onValue, remove } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+        import { getDatabase, ref, push, onValue, remove, update } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyD_5MWAYSC-7nYHzWzcC99rP9xOb85-cvs",
-        authDomain: "fsbc-rushville.firebaseapp.com",
-        databaseURL: "https://fsbc-rushville-default-rtdb.firebaseio.com",
-        projectId: "fsbc-rushville",
-        storageBucket: "fsbc-rushville.firebasestorage.app",
-        messagingSenderId: "363958219468",
-        appId: "1:363958219468:web:63f4f4be8e7e827d4c4869",
-        measurementId: "G-JEHC1TWY12"
-    };
+        const firebaseConfig = {
+            apiKey: "AIzaSyD_5MWAYSC-7nYHzWzcC99rP9xOb85-cvs",
+            authDomain: "fsbc-rushville.firebaseapp.com",
+            databaseURL: "https://fsbc-rushville-default-rtdb.firebaseio.com",
+            projectId: "fsbc-rushville",
+            storageBucket: "fsbc-rushville.firebasestorage.app",
+            messagingSenderId: "363958219468",
+            appId: "1:363958219468:web:63f4f4be8e7e827d4c4869",
+            measurementId: "G-JEHC1TWY12"
+        };
 
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
-    const messaging = getMessaging(app);
-
-    async function requestNotificationPermission() {
-        try {
-            const token = await getToken(messaging, { vapidKey: 'BO5cxj6wrvcBtvKxOv6mfdWuGyjIjyM3lW1whVfjsTNJWyhOaEDRwV_-hxyMmT_89xdy9EtY9J8CVxVzVxQWB0YEY' });
-            console.log('FCM Token:', token);
-
-            const userTokensRef = ref(database, 'userTokens');
-            push(userTokensRef, token);
-        } catch (error) {
-            console.error('Error getting FCM token:', error);
-        }
-    }
-
-    requestNotificationPermission();
-
-    const prayersRef = ref(database, 'prayers');
-    onValue(prayersRef, (snapshot) => {
-        const prayerList = document.getElementById("prayerList");
-        prayerList.innerHTML = "";
-
-        snapshot.forEach((childSnapshot) => {
-            const prayer = childSnapshot.val();
-            const prayerId = childSnapshot.key; // Get the unique key of the prayer request
-            const prayerContainer = document.createElement("div");
-            prayerContainer.classList.add("prayer-container");
-
-            const nameElement = document.createElement("strong");
-            nameElement.innerHTML = prayer.name;
-
-            const messageElement = document.createElement("p");
-            messageElement.innerHTML = prayer.message;
-
-            const timestampElement = document.createElement("small");
-            timestampElement.innerHTML = new Date(prayer.timestamp).toLocaleString();
-
-            // Create a delete button
-            const deleteButton = document.createElement("button");
-            deleteButton.innerHTML = "Delete";
-            deleteButton.classList.add("delete-btn");
-            deleteButton.addEventListener("click", () => {
-                // Ask for confirmation before deleting
-                if (confirm("Are you sure you want to delete this prayer request?")) {
-                    deletePrayer(prayerId); // Call the delete function with the prayer ID
-                }
-            });
-
-            prayerContainer.appendChild(nameElement);
-            prayerContainer.appendChild(messageElement);
-            prayerContainer.appendChild(timestampElement);
-            prayerContainer.appendChild(deleteButton);
-
-            prayerList.appendChild(prayerContainer);
-        });
-    });
-
-    // Function to delete a prayer request from the database
-    function deletePrayer(prayerId) {
-        const prayerRef = ref(database, 'prayers/' + prayerId);
-        remove(prayerRef)
-            .then(() => {
-                console.log("Prayer request deleted successfully!");
-            })
-            .catch((error) => {
-                console.error("Error deleting prayer request:", error);
-            });
-    }
-
-    function submitPrayer() {
-        const name = document.getElementById("name").value;
-        const message = document.getElementById("message").value;
-
-        if (!message.trim()) {
-            alert("Please enter a prayer request.");
-            return;
-        }
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
 
         const prayersRef = ref(database, 'prayers');
-        push(prayersRef, {
-            name: name || "Anonymous",
-            message: message,
-            timestamp: Date.now()
-        }).then(() => {
-            alert("Prayer request submitted!");
-            document.getElementById("name").value = "";
-            document.getElementById("message").value = "";
-        }).catch((error) => {
-            console.error("Error submitting prayer request:", error);
+
+        // Load prayers from Firebase and display them
+        onValue(prayersRef, (snapshot) => {
+            const prayerList = document.getElementById("prayerList");
+            prayerList.innerHTML = "";
+
+            snapshot.forEach((childSnapshot) => {
+                const prayer = childSnapshot.val();
+                const prayerId = childSnapshot.key;
+                const prayerContainer = document.createElement("div");
+                prayerContainer.classList.add("prayer-container");
+
+                const nameElement = document.createElement("strong");
+                nameElement.innerHTML = prayer.name;
+
+                const messageElement = document.createElement("p");
+                messageElement.innerHTML = prayer.message;
+
+                const timestampElement = document.createElement("small");
+                timestampElement.innerHTML = new Date(prayer.timestamp).toLocaleString();
+
+                // Prayer count display
+                const prayerCount = document.createElement("span");
+                prayerCount.innerHTML = `  ${prayer.prayerCount || 0}`;
+                prayerCount.classList.add("prayer-count");
+
+                // Prayer button
+                const prayerButton = document.createElement("button");
+                prayerButton.innerHTML = "🙏";
+                prayerButton.classList.add("prayer-btn");
+                prayerButton.addEventListener("click", () => incrementPrayerCount(prayerId, prayer.prayerCount || 0));
+
+                // Delete button
+                const deleteButton = document.createElement("button");
+                deleteButton.innerHTML = "Delete";
+                deleteButton.classList.add("delete-btn");
+                deleteButton.addEventListener("click", () => {
+                    if (confirm("Are you sure you want to delete this prayer request? WARNING: This deletes for ALL users")) {
+                        deletePrayer(prayerId);
+                    }
+                });
+
+                prayerContainer.appendChild(nameElement);
+                prayerContainer.appendChild(messageElement);
+                prayerContainer.appendChild(timestampElement);
+                prayerContainer.appendChild(prayerCount);
+                prayerContainer.appendChild(prayerButton);
+                prayerContainer.appendChild(deleteButton);
+
+                prayerList.appendChild(prayerContainer);
+            });
         });
-    }
 
-    document.getElementById("submitPrayerBtn").addEventListener("click", submitPrayer);
-</script>
+        // Prevent multiple clicks per device using localStorage
+        function incrementPrayerCount(prayerId, currentCount) {
+            let prayedPrayers = JSON.parse(localStorage.getItem("prayedPrayers")) || {};
 
+            if (prayedPrayers[prayerId]) {
+                alert("You have already prayed for this request.");
+                return;
+            }
+
+            const prayerRef = ref(database, 'prayers/' + prayerId);
+            update(prayerRef, { prayerCount: currentCount + 1 })
+                .then(() => {
+                    prayedPrayers[prayerId] = true;
+                    localStorage.setItem("prayedPrayers", JSON.stringify(prayedPrayers));
+                })
+                .catch((error) => {
+                    console.error("Error updating prayer count:", error);
+                });
+        }
+
+        // Delete prayer request from Firebase
+        function deletePrayer(prayerId) {
+            const prayerRef = ref(database, 'prayers/' + prayerId);
+            remove(prayerRef)
+                .then(() => console.log("Prayer request deleted successfully!"))
+                .catch((error) => console.error("Error deleting prayer request:", error));
+        }
+
+        // Submit new prayer request
+        function submitPrayer() {
+            const name = document.getElementById("name").value;
+            const message = document.getElementById("message").value;
+
+            if (!message.trim()) {
+                alert("Please enter a prayer request.");
+                return;
+            }
+
+            const prayersRef = ref(database, 'prayers');
+            push(prayersRef, {
+                name: name || "Anonymous",
+                message: message,
+                prayerCount: 0,
+                timestamp: Date.now()
+            }).then(() => {
+                alert("Prayer request submitted!");
+                document.getElementById("name").value = "";
+                document.getElementById("message").value = "";
+            }).catch((error) => console.error("Error submitting prayer request:", error));
+        }
+
+        document.getElementById("submitPrayerBtn").addEventListener("click", submitPrayer);
+    </script>
 
     <script>
-      if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('firebase-messaging-sw.js')
-        .then((registration) => {
-            console.log('Service Worker registered:', registration);
-        })
-        .catch((error) => {
-            console.error('Service Worker registration failed:', error);
-        });
-}
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('firebase-messaging-sw.js')
+                .then((registration) => {
+                    console.log('Service Worker registered:', registration);
+                })
+                .catch((error) => {
+                    console.error('Service Worker registration failed:', error);
+                });
+        }
     </script>
+
 </body>
 </html>
