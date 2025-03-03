@@ -52,55 +52,64 @@
 
         // Load prayers from Firebase and display them
         onValue(prayersRef, (snapshot) => {
-            const prayerList = document.getElementById("prayerList");
-            prayerList.innerHTML = "";
+    const prayerList = document.getElementById("prayerList");
+    prayerList.innerHTML = "";
 
-            snapshot.forEach((childSnapshot) => {
-                const prayer = childSnapshot.val();
-                const prayerId = childSnapshot.key;
-                const prayerContainer = document.createElement("div");
-                prayerContainer.classList.add("prayer-container");
+    let prayersArray = [];
 
-                const nameElement = document.createElement("strong");
-                nameElement.innerHTML = prayer.name;
+    snapshot.forEach((childSnapshot) => {
+        let prayer = childSnapshot.val();
+        prayer.id = childSnapshot.key; // Store the prayer ID
+        prayersArray.push(prayer);
+    });
 
-                const messageElement = document.createElement("p");
-                messageElement.innerHTML = prayer.message;
+    // Sort prayers by timestamp (newest first)
+    prayersArray.sort((a, b) => b.timestamp - a.timestamp);
 
-                const timestampElement = document.createElement("small");
-                timestampElement.innerHTML = new Date(prayer.timestamp).toLocaleString();
+    prayersArray.forEach((prayer) => {
+        const prayerContainer = document.createElement("div");
+        prayerContainer.classList.add("prayer-container");
 
-                // Prayer count display
-                const prayerCount = document.createElement("span");
-                prayerCount.innerHTML = `  ${prayer.prayerCount || 0}`;
-                prayerCount.classList.add("prayer-count");
+        const nameElement = document.createElement("strong");
+        nameElement.innerHTML = prayer.name;
 
-                // Prayer button
-                const prayerButton = document.createElement("button");
-                prayerButton.innerHTML = "🙏";
-                prayerButton.classList.add("prayer-btn");
-                prayerButton.addEventListener("click", () => incrementPrayerCount(prayerId, prayer.prayerCount || 0));
+        const messageElement = document.createElement("p");
+        messageElement.innerHTML = prayer.message;
 
-                // Delete button
-                const deleteButton = document.createElement("button");
-                deleteButton.innerHTML = "Delete";
-                deleteButton.classList.add("delete-btn");
-                deleteButton.addEventListener("click", () => {
-                    if (confirm("Are you sure you want to delete this prayer request? WARNING: This deletes for ALL users")) {
-                        deletePrayer(prayerId);
-                    }
-                });
+        const timestampElement = document.createElement("small");
+        timestampElement.innerHTML = new Date(prayer.timestamp).toLocaleString();
 
-                prayerContainer.appendChild(nameElement);
-                prayerContainer.appendChild(messageElement);
-                prayerContainer.appendChild(timestampElement);
-                prayerContainer.appendChild(prayerCount);
-                prayerContainer.appendChild(prayerButton);
-                prayerContainer.appendChild(deleteButton);
+        // Prayer count display
+        const prayerCount = document.createElement("span");
+        prayerCount.innerHTML = ` 🙏 ${prayer.prayerCount || 0}`;
+        prayerCount.classList.add("prayer-count");
 
-                prayerList.appendChild(prayerContainer);
-            });
+        // Prayer button
+        const prayerButton = document.createElement("button");
+        prayerButton.innerHTML = "🙏";
+        prayerButton.classList.add("prayer-btn");
+        prayerButton.addEventListener("click", () => incrementPrayerCount(prayer.id, prayer.prayerCount || 0));
+
+        // Delete button
+        const deleteButton = document.createElement("button");
+        deleteButton.innerHTML = "Delete";
+        deleteButton.classList.add("delete-btn");
+        deleteButton.addEventListener("click", () => {
+            if (confirm("Are you sure you want to delete this prayer request?")) {
+                deletePrayer(prayer.id);
+            }
         });
+
+        prayerContainer.appendChild(nameElement);
+        prayerContainer.appendChild(messageElement);
+        prayerContainer.appendChild(timestampElement);
+        prayerContainer.appendChild(prayerCount);
+        prayerContainer.appendChild(prayerButton);
+        prayerContainer.appendChild(deleteButton);
+
+        prayerList.appendChild(prayerContainer);
+    });
+});
 
         // Prevent multiple clicks per device using localStorage
         function incrementPrayerCount(prayerId, currentCount) {
