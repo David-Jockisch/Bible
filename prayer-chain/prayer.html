@@ -66,7 +66,7 @@
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
         import { getDatabase, ref, push, onValue, remove, update } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
-
+    
         const firebaseConfig = {
             apiKey: "AIzaSyD_5MWAYSC-7nYHzWzcC99rP9xOb85-cvs",
             authDomain: "fsbc-rushville.firebaseapp.com",
@@ -77,82 +77,82 @@
             appId: "1:363958219468:web:63f4f4be8e7e827d4c4869",
             measurementId: "G-JEHC1TWY12"
         };
-
+    
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
-
+    
         const prayersRef = ref(database, 'prayers');
-
+    
         // Load prayers from Firebase and display them
         onValue(prayersRef, (snapshot) => {
-    const prayerList = document.getElementById("prayerList");
-    prayerList.innerHTML = "";
-
-    let prayersArray = [];
-
-    snapshot.forEach((childSnapshot) => {
-        let prayer = childSnapshot.val();
-        prayer.id = childSnapshot.key; // Store the prayer ID
-        prayersArray.push(prayer);
-    });
-
-    // Sort prayers by timestamp (newest first)
-    prayersArray.sort((a, b) => b.timestamp - a.timestamp);
-
-    prayersArray.forEach((prayer) => {
-        const prayerContainer = document.createElement("div");
-        prayerContainer.classList.add("prayer-container");
-
-        const nameElement = document.createElement("strong");
-        nameElement.innerHTML = prayer.name;
-
-        const messageElement = document.createElement("p");
-        messageElement.innerHTML = prayer.message;
-
-        const timestampElement = document.createElement("small");
-        timestampElement.innerHTML = new Date(prayer.timestamp).toLocaleString();
-
-        // Prayer count display
-        const prayerCount = document.createElement("span");
-        prayerCount.innerHTML = ` Seen by ${prayer.prayerCount || 0}`;
-        prayerCount.classList.add("prayer-count");
-
-        // Prayer button
-        const prayerButton = document.createElement("button");
-        prayerButton.innerHTML = "🙏";
-        prayerButton.classList.add("prayer-btn");
-        prayerButton.addEventListener("click", () => incrementPrayerCount(prayer.id, prayer.prayerCount || 0));
-
-        // Delete button
-        const deleteButton = document.createElement("button");
-        deleteButton.innerHTML = "Delete";
-        deleteButton.classList.add("delete-btn");
-        deleteButton.addEventListener("click", () => {
-            if (confirm("WARNING: This will delete for ALL users. Are you sure you want to delete this prayer request?")) {
-                deletePrayer(prayer.id);
-            }
+            const prayerList = document.getElementById("prayerList");
+            prayerList.innerHTML = "";
+    
+            let prayersArray = [];
+    
+            snapshot.forEach((childSnapshot) => {
+                let prayer = childSnapshot.val();
+                prayer.id = childSnapshot.key; // Store the prayer ID
+                prayersArray.push(prayer);
+            });
+    
+            // Sort prayers by timestamp (newest first)
+            prayersArray.sort((a, b) => b.timestamp - a.timestamp);
+    
+            prayersArray.forEach((prayer) => {
+                const prayerContainer = document.createElement("div");
+                prayerContainer.classList.add("prayer-container");
+    
+                const nameElement = document.createElement("strong");
+                nameElement.innerHTML = prayer.name;
+    
+                const messageElement = document.createElement("p");
+                messageElement.innerHTML = prayer.message;
+    
+                const timestampElement = document.createElement("small");
+                timestampElement.innerHTML = new Date(prayer.timestamp).toLocaleString();
+    
+                // Prayer count display
+                const prayerCount = document.createElement("span");
+                prayerCount.innerHTML = ` Seen by ${prayer.prayerCount || 0}`;
+                prayerCount.classList.add("prayer-count");
+    
+                // Prayer button
+                const prayerButton = document.createElement("button");
+                prayerButton.innerHTML = "🙏";
+                prayerButton.classList.add("prayer-btn");
+                prayerButton.addEventListener("click", () => incrementPrayerCount(prayer.id, prayer.prayerCount || 0));
+    
+                // Delete button
+                const deleteButton = document.createElement("button");
+                deleteButton.innerHTML = "Delete";
+                deleteButton.classList.add("delete-btn");
+                deleteButton.addEventListener("click", () => {
+                    if (confirm("WARNING: This will delete for ALL users. Are you sure you want to delete this prayer request?")) {
+                        deletePrayer(prayer.id);
+                    }
+                });
+    
+                prayerContainer.appendChild(nameElement);
+                prayerContainer.appendChild(messageElement);
+                prayerContainer.appendChild(timestampElement);
+                prayerContainer.appendChild(prayerCount);
+                prayerContainer.appendChild(prayerButton);
+                prayerContainer.appendChild(deleteButton);
+    
+                prayerList.appendChild(prayerContainer);
+            });
         });
-
-        prayerContainer.appendChild(nameElement);
-        prayerContainer.appendChild(messageElement);
-        prayerContainer.appendChild(timestampElement);
-        prayerContainer.appendChild(prayerCount);
-        prayerContainer.appendChild(prayerButton);
-        prayerContainer.appendChild(deleteButton);
-
-        prayerList.appendChild(prayerContainer);
-    });
-});
-
+    
         // Prevent multiple clicks per device using localStorage
         function incrementPrayerCount(prayerId, currentCount) {
             let prayedPrayers = JSON.parse(localStorage.getItem("prayedPrayers")) || {};
-
+    
             if (prayedPrayers[prayerId]) {
                 alert("You have already prayed for this request.");
                 return;
             }
-
+    
             const prayerRef = ref(database, 'prayers/' + prayerId);
             update(prayerRef, { prayerCount: currentCount + 1 })
                 .then(() => {
@@ -163,7 +163,7 @@
                     console.error("Error updating prayer count:", error);
                 });
         }
-
+    
         // Delete prayer request from Firebase
         function deletePrayer(prayerId) {
             const prayerRef = ref(database, 'prayers/' + prayerId);
@@ -171,17 +171,17 @@
                 .then(() => console.log("Prayer request deleted successfully!"))
                 .catch((error) => console.error("Error deleting prayer request:", error));
         }
-
+    
         // Submit new prayer request
         function submitPrayer() {
             const name = document.getElementById("name").value;
             const message = document.getElementById("message").value;
-
+    
             if (!message.trim()) {
                 alert("Please enter a prayer request.");
                 return;
             }
-
+    
             const prayersRef = ref(database, 'prayers');
             push(prayersRef, {
                 name: name || "Anonymous",
@@ -194,51 +194,38 @@
                 document.getElementById("message").value = "";
             }).catch((error) => console.error("Error submitting prayer request:", error));
         }
-
+    
         document.getElementById("submitPrayerBtn").addEventListener("click", submitPrayer);
+    
+        // Modal functionality
         document.addEventListener("DOMContentLoaded", function () {
-    const modal = document.getElementById("infoModal");
-    const btn = document.querySelector(".info-btn");
-    const span = document.querySelector(".close");
-
-    btn.onclick = function () {
-        modal.style.display = "block";
-    };
-
-    span.onclick = function () {
-        modal.style.display = "none";
-    };
-
-    window.onclick = function (event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    };
-});
-// Open modal
-function openModal() {
-    document.getElementById("infoModal").style.display = "block";
-    document.body.classList.add("modal-open"); // Disable page scrolling
-}
-
-// Close modal
-function closeModal() {
-    document.getElementById("infoModal").style.display = "none";
-    document.body.classList.remove("modal-open"); // Enable page scrolling again
-}
-
-// Close modal when the "X" button is clicked
-document.querySelector(".close").addEventListener("click", closeModal);
-
-// Close modal if clicked outside of the modal-content
-window.addEventListener("click", function(event) {
-    if (event.target === document.getElementById("infoModal")) {
-        closeModal();
-    }
-});
-
+            const modal = document.getElementById("infoModal");
+            const btn = document.querySelector(".info-btn");
+            const span = document.querySelector(".close");
+    
+            // Open modal
+            btn.onclick = function () {
+                modal.style.display = "block";
+                document.body.classList.add("modal-open"); // Disable page scrolling
+            };
+    
+            // Close modal
+            span.onclick = function () {
+                modal.style.display = "none";
+                document.body.classList.remove("modal-open"); // Enable page scrolling again
+            };
+    
+            // Close modal if clicked outside modal content
+            window.onclick = function (event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                    document.body.classList.remove("modal-open");
+                }
+            };
+        });
+    
     </script>
-
+    
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('firebase-messaging-sw.js')
