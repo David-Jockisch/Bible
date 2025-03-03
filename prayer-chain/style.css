@@ -148,6 +148,8 @@ textarea {
     resize: vertical;
     box-sizing: border-box;
 }
+
+/* Modal Styles */
 .modal {
     display: none; 
     position: fixed;
@@ -165,16 +167,47 @@ textarea {
     padding: 20px;
     border-radius: 10px;
     width: 80%;
-    max-width: 400px;
-    text-align: center;
+    max-width: 500px; /* Slightly wider modal */
+    text-align: left;
+    max-height: 80vh; /* Limits the height */
+    overflow-y: auto; /* Adds scroll for long content */
 }
 
+/* Close Button */
 .close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Modal Content Text */
+h2 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: 1.2em;
+    margin-bottom: 12px;
+}
+
+ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+
+li {
+    font-size: 1.1em;
 }
 
 /* Responsive Design */
@@ -195,6 +228,18 @@ textarea {
 
     .container {
         padding: 15px;
+    }
+
+    .modal-content {
+        width: 90%;
+    }
+
+    h2 {
+        font-size: 1.3em;
+    }
+
+    p, ul, li {
+        font-size: 1em;
     }
 }
 
