@@ -215,6 +215,27 @@
         }
     };
 });
+// Open modal
+function openModal() {
+    document.getElementById("infoModal").style.display = "block";
+    document.body.classList.add("modal-open"); // Disable page scrolling
+}
+
+// Close modal
+function closeModal() {
+    document.getElementById("infoModal").style.display = "none";
+    document.body.classList.remove("modal-open"); // Enable page scrolling again
+}
+
+// Close modal when the "X" button is clicked
+document.querySelector(".close").addEventListener("click", closeModal);
+
+// Close modal if clicked outside of the modal-content
+window.addEventListener("click", function(event) {
+    if (event.target === document.getElementById("infoModal")) {
+        closeModal();
+    }
+});
 
     </script>
 
