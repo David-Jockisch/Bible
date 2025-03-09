@@ -32,3 +32,4 @@ exports.sendPrayerNotification = functions.database.ref("/prayers/{prayerId}")
             console.error("Error sending notification:", error);
         }
     });
+
