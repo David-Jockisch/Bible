@@ -23,49 +23,45 @@
             <textarea id="message" placeholder="Enter your prayer request"></textarea>
             <button class="button" id="submitPrayerBtn" type="button">Submit Prayer Request</button>
         </form>  
-        
+
         <button class="info-btn">ℹ️ Info</button>
 
         <div id="infoModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2>How to Use This App</h2>
-                
                 <h3>Getting Started</h3>
                 <p>1. Submit a prayer request.</p>
                 <p>2. Get notified when others pray for you.</p>
                 <p>3. Click 'Amen' to show support!</p>
-        
+
                 <h3>Save This App to Your Homescreen</h3>
                 <h4>For iPhone (Safari)</h4>
                 <p>1. Tap the Share button at the bottom.</p>
                 <p>2. Scroll down and select Add to Home Screen.</p>
                 <p>3. Tap Add to save the app to your homescreen.</p>
-        
+
                 <h4>For Android (Chrome)</h4>
                 <p>1. Tap the three dots menu (⋮) in the top right.</p>
                 <p>2. Select Add to Home screen.</p>
                 <p>3. Tap Add to install the shortcut.</p>
-        
+
                 <h3>Deleting a Prayer Request</h3>
                 <p><strong>Important:</strong> When you delete a request, it will be permanently removed for all users. Please be sure before confirming the deletion.</p>
             </div>
         </div>
-        
-        </div>
-        
-  
     </div>
 
     <div class="container">
         <h2>All Prayer Requests</h2>
-        <p>Prayers are sorted from newest (top) to oldest (bottom) </p>
-        <div id="prayerList"></div> 
+        <p>Prayers are sorted from newest (top) to oldest (bottom)</p>
+        <div id="prayerList"></div>
     </div>
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
         import { getDatabase, ref, push, onValue, remove, update } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+        import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging.js';
     
         const firebaseConfig = {
             apiKey: "AIzaSyD_5MWAYSC-7nYHzWzcC99rP9xOb85-cvs",
@@ -80,6 +76,7 @@
     
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
+        const messaging = getMessaging(app);
     
         const prayersRef = ref(database, 'prayers');
     
@@ -224,23 +221,37 @@
             };
         });
     
-    </script>
-    
-    <script>
+        // Push notifications
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/Bible/prayer-chain/firebase-messaging-sw.js')
+            navigator.serviceWorker.register('/firebase-messaging-sw.js')
                 .then((registration) => {
                     console.log('✅ Service Worker registered:', registration);
                 })
                 .catch((error) => {
                     console.error('❌ Service Worker registration failed:', error.message);
-                    console.error('Error details:', error);
                 });
+
+            // Request FCM token
+            getToken(messaging, {
+                vapidKey: 'YOUR_VAPID_KEY_HERE'
+            }).then((currentToken) => {
+                if (currentToken) {
+                    console.log('FCM token:', currentToken);
+                } else {
+                    console.warn('No FCM token available.');
+                }
+            }).catch((err) => {
+                console.error('Error getting FCM token:', err);
+            });
+
+            // Listen for messages
+            onMessage(messaging, (payload) => {
+                console.log('Message received. ', payload);
+                // Customize the UI to show the message
+            });
         } else {
             console.warn('⚠️ Service Workers are not supported in this browser.');
         }
     </script>
-    
-
 </body>
 </html>
